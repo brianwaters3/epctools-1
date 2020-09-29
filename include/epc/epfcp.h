@@ -196,18 +196,21 @@ namespace PFCP
       ///   which allows custom subclasses of those objects to add any custom stats.
       ///   This function expects to push the array of local nodes into an object
       ///   which should be the current item on the top of the json builder stack.
+      ///   This function is thread-safe.
       /// @param builder the JsonBuilder to populate with stats
       static Void collectNodeStats(EJsonBuilder &builder);
 
-      /// @brief Resets all the stats counters to zero.
+      /// @brief Resets all the stats counters to zero. This function is thread-safe.
       static Void reset();
 
       /// @brief Returns the time of the last reset or if reset hasn't been called,
-      ///   the time the static class was initialized (i.e. the application start time)
+      ///   the time the static class was initialized (i.e. the application start time).
+      ///   This function is thread-safe.
       /// @return the time of the last reset or application start time
-      static ETime lastReset() { return lastreset_; }
+      static ETime lastReset();
 
    private:
+      static ERWLock lastresetlck_;
       static ETime lastreset_;
    };
 
