@@ -288,6 +288,14 @@ ELoggerSinkSet &ELogger::createSinkSet(Int sinkid)
    return sinkSet(sinkid);
 }
 
+std::string ELogger::getLogLevelName()
+{
+   std::string name;
+   auto &view = spdlog::level::to_string_view(m_log->level());
+   name.assign(view.begin(), view.end());
+   return name;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 

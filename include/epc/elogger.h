@@ -184,16 +184,30 @@ public:
    /// @brief Flushes any unwritten log messages to the underlying sinks.
    Void flush() { m_log->flush(); }
 
-   /// @brief Assign a log level for this logger.  Any log messages lower than the specified log level will not be written.
+   /// @brief Assign a log level for this logger. Any log messages lower than the specified log level will not be written.
    /// @param lvl the log level to assign.
    Void setLogLevel( LogLevel lvl ) { m_log->set_level((spdlog::level::level_enum)lvl); }
+   /// @brief Assign a log level for this logger from a log level name. Any log messages lower than the specified log level will not be written.
+   /// @param lvl_name the log level name to assign.
+   Void setLogLevel( cpStr lvl_name ) { setLogLevel((LogLevel)spdlog::level::from_str(lvl_name)); }
    /// @brief Retrieve the currently assigned log level.
    /// @return the current log level.
    LogLevel getLogLevel() { return (LogLevel)m_log->level(); }
+   /// @brief Retrieve the name of the currently assigned log level.
+   /// @return the current log level name.
+   std::string getLogLevelName();
 
    /// @brief Retrieve the name (category) of the logger.
    /// @return the logger name.
    const std::string & get_name() { return m_log->name(); }
+
+   /// @brief Retrieve the sink id of the logger.
+   /// @return the sink id.
+   Int getSinkId() const { return m_sinkid; }
+
+   /// @brief Retrieve the log id of the logger.
+   /// @return the log id.
+   Int getLogId() const { return m_logid; }
 
    /// @brief Retrieve the current log level from the underlying spdlog object.
    /// @return the spdlog log level.
@@ -204,7 +218,7 @@ public:
 
    /// @brief Retrieve the defined loggers.
    /// @return the logger collection.
-   const std::map<std::string,std::shared_ptr<ELogger>> get_loggers() { return m_logs_by_name; }
+   static const std::map<std::string,std::shared_ptr<ELogger>> &get_loggers() { return m_logs_by_name; }
 
 protected:
    /// @brief Initilizes the logs from the configuration file.
