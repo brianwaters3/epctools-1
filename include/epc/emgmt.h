@@ -101,7 +101,7 @@ public:
    /// @brief Pure virtual method that will be called by handler() to perform the processing.
    /// @param request HTTP request object.
    /// @param response HTTP response object.
-   virtual Void process(const Pistache::Http::Request& request, Pistache::Http::ResponseWriter &response) = 0;
+   virtual Void process(const Pistache::Rest::Request& request, Pistache::Http::ResponseWriter &response) = 0;
 
    /// @brief HTTP handler that will be called by the Pistache framework.
    /// @param request HTTP request object.
