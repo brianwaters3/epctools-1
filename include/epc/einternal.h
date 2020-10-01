@@ -96,6 +96,7 @@ private:
 #define MEMBER_LOGGER_FILE_ROTATE_ON_OPEN "RotateOnOpen"
 #define MEMBER_LOGGER_MAX_SIZE "MaxSizeMB"
 #define MEMBER_LOGGER_MAX_FILES "MaxNumberFiles"
+#define MEMBER_LOGGER_RINGBUFFER_NITEMS "NumberItems"
 #define MEMBER_LOGGER_ROLLOVER_HOUR "RolloverHour"
 #define MEMBER_LOGGER_ROLLOVER_MINUTE "RolloverMinute"
 #define MEMBER_LOGGER_LOGS "Logs"

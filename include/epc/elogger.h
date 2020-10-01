@@ -263,7 +263,9 @@ public:
       /// a rotating set of files
       eRotatingFile,
       /// a file that rolls over each day at a specified time
-      eDailyFile
+      eDailyFile,
+      /// a ring buffer that contains n items
+      eRingBuffer
    };
 
    /// @brief Class destructor
@@ -463,6 +465,31 @@ private:
    Bool m_truncate;
    Int m_rolloverhour;
    Int m_rolloverminute;
+};
+
+/// @brief A ring buffer sink.
+class ELoggerSinkRingBuffer : public ELoggerSink
+{
+public:
+   /// @brief Class constructor.
+   /// @param loglevel the sink log level.
+   /// @param pattern the log message formatting pattern.
+   /// @param nitems the number of items to store in the buffer.
+   ELoggerSinkRingBuffer( ELogger::LogLevel loglevel, cpStr pattern, size_t nitems );
+   /// @brief Class destructor.
+   virtual ~ELoggerSinkRingBuffer() {}
+
+   /// @brief Retrieves the number of items stored in the buffer.
+   /// @return the number of items.
+   size_t getNumberItems() { return m_nitems; }
+
+   /// @brief Retrieves the last items stored in the buffer as formatted strings.
+   /// @param limit the maximum number of items to retrieve.
+   /// @return A vector of strings of the last items stored in the buffer.
+   std::vector<std::string> lastFormatted(size_t limit = 0);
+
+private:
+   size_t m_nitems;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -26,6 +26,7 @@
 
 #include "spdlog/sinks/basic_file_sink.h"
 #include "spdlog/sinks/daily_file_sink.h"
+#include "spdlog/sinks/ringbuffer_sink.h"
 #include "spdlog/sinks/rotating_file_sink.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 #include "spdlog/sinks/syslog_sink.h"
@@ -192,6 +193,15 @@ Void ELogger::init(EGetOpt &opt)
                std::shared_ptr<ELoggerSink> sp = std::make_shared<ELoggerSinkDailyFile>(
                   loglevel, pattern, filename, truncate, hr, mi );
 
+               ELogger::sinkSet(sinkid).addSink( sp );
+            }
+            else if ( sinktype == "ring_buffer" )
+            {
+               Int nitems = opt.get( j, pth, MEMBER_LOGGER_RINGBUFFER_NITEMS, 0 );
+
+               std::shared_ptr<ELoggerSink> sp = std::make_shared<ELoggerSinkRingBuffer>(
+                  loglevel, pattern, nitems );
+               
                ELogger::sinkSet(sinkid).addSink( sp );
             }
             else if ( sinktype == "stdout" )
@@ -368,4 +378,22 @@ ELoggerSinkRotatingFile::ELoggerSinkRotatingFile( ELogger::LogLevel loglevel, cp
    sp->set_level( (spdlog::level::level_enum)loglevel );
    setSinkPtr( sp );
    sp->set_pattern( getPattern() );
+}
+
+ELoggerSinkRingBuffer::ELoggerSinkRingBuffer( ELogger::LogLevel loglevel, cpStr pattern,
+      size_t nitems )
+   : ELoggerSink( ELoggerSink::eRingBuffer, loglevel, pattern ),
+     m_nitems( nitems )
+{
+   spdlog::sink_ptr sp = std::make_shared<spdlog::sinks::ringbuffer_sink_mt>(
+      m_nitems );
+   sp->set_level( (spdlog::level::level_enum)loglevel );
+   setSinkPtr( sp );
+   sp->set_pattern( getPattern() );
+}
+
+std::vector<std::string> ELoggerSinkRingBuffer::lastFormatted( size_t limit )
+{
+   return std::static_pointer_cast<spdlog::sinks::ringbuffer_sink_mt>( 
+      getSinkPtr() )->last_formatted( limit );
 }
