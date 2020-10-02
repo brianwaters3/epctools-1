@@ -197,7 +197,7 @@ Void ELogger::init(EGetOpt &opt)
             }
             else if ( sinktype == "ring_buffer" )
             {
-               Int nitems = opt.get( j, pth, MEMBER_LOGGER_RINGBUFFER_NITEMS, 0 );
+               Int nitems = opt.get( j, pth, MEMBER_LOGGER_NUMBER_ITEMS, 0 );
 
                std::shared_ptr<ELoggerSink> sp = std::make_shared<ELoggerSinkRingBuffer>(
                   loglevel, pattern, nitems );
@@ -298,10 +298,21 @@ ELoggerSinkSet &ELogger::createSinkSet(Int sinkid)
    return sinkSet(sinkid);
 }
 
-std::string ELogger::getLogLevelName()
+EString ELogger::getLogLevelName() const
 {
    std::string name;
    auto &view = spdlog::level::to_string_view(m_log->level());
+   name.assign(view.begin(), view.end());
+   return name;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+EString ELoggerSink::getLogLevelName() const
+{
+   std::string name;
+   auto &view = spdlog::level::to_string_view(m_sinkptr->level());
    name.assign(view.begin(), view.end());
    return name;
 }

@@ -195,11 +195,11 @@ public:
    LogLevel getLogLevel() { return (LogLevel)m_log->level(); }
    /// @brief Retrieve the name of the currently assigned log level.
    /// @return the current log level name.
-   std::string getLogLevelName();
+   EString getLogLevelName() const;
 
    /// @brief Retrieve the name (category) of the logger.
    /// @return the logger name.
-   const std::string & get_name() { return m_log->name(); }
+   const std::string &get_name() { return m_log->name(); }
 
    /// @brief Retrieve the sink id of the logger.
    /// @return the sink id.
@@ -219,6 +219,10 @@ public:
    /// @brief Retrieve the defined loggers.
    /// @return the logger collection.
    static const std::map<std::string,std::shared_ptr<ELogger>> &get_loggers() { return m_logs_by_name; }
+
+   /// @brief Retrieve the defined sink sets.
+   /// @return the sink set collection.
+   static const std::unordered_map<Int,std::shared_ptr<ELoggerSinkSet>> &get_sinksets() { return m_sinksets; }
 
 protected:
    /// @brief Initilizes the logs from the configuration file.
@@ -277,6 +281,9 @@ public:
    /// @brief Retrieves the log level for this sink.
    /// @return the sink log level.
    ELogger::LogLevel getLogLevel() { return (ELogger::LogLevel)m_sinkptr->level(); }
+   /// @brief Retrieve the name of the currently assigned log level.
+   /// @return the current log level name.
+   EString getLogLevelName() const;
    /// @brief Retrieves the log message formatting pattern.
    /// @return the log message formatting pattern.
    EString &getPattern() { return m_pattern; }
@@ -286,6 +293,10 @@ public:
    /// @return the assigned sink log level.
    ELogger::LogLevel setLogLevel( ELogger::LogLevel loglevel )
       { m_sinkptr->set_level( (spdlog::level::level_enum)loglevel ); m_loglevel = loglevel; return getLogLevel(); }
+   /// @brief Assign a log level for this sink from a log level name.
+   /// @param lvl_name the log level name to assign.
+   ELogger::LogLevel setLogLevel( cpStr lvl_name ) 
+      { return setLogLevel((ELogger::LogLevel)spdlog::level::from_str(lvl_name)); }
    /// @brief Assigns the log message formatting pattern.
    /// @param pattern the log message formatting pattern.
    /// @return the log message formatting pattern.
