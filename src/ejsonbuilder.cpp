@@ -31,6 +31,7 @@ public:
    Void push(ContainerType type);
    Void push(const EString &value);
    Void push(UInt value);
+   Void push(Bool value);
    Void pop(const EString &name = "");
    cpStr toString();
 
@@ -76,6 +77,12 @@ Void EJsonBuilder::Impl::push(const EString &value)
 }
 
 Void EJsonBuilder::Impl::push(UInt value)
+{
+   m_value_stack.emplace_back(value);
+   updateCurrValue();
+}
+
+Void EJsonBuilder::Impl::push(Bool value)
 {
    m_value_stack.emplace_back(value);
    updateCurrValue();
@@ -147,6 +154,7 @@ EJsonBuilder::StackValue<T>::StackValue(EJsonBuilder &builder, const T &value, c
 // Explicit Instantiations
 template class EJsonBuilder::StackValue<UInt>;
 template class EJsonBuilder::StackValue<EString>;
+template class EJsonBuilder::StackValue<Bool>;
 
 template<EJsonBuilder::ContainerType T>
 EJsonBuilder::StackContainer<T>::StackContainer(EJsonBuilder &builder, const EString &name)

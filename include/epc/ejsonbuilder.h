@@ -68,6 +68,7 @@ public:
 
     using StackString = StackValue<EString>;
     using StackUInt = StackValue<UInt>;
+    using StackBool = StackValue<Bool>;
 
     /// @brief A helper class which pushes/pops items on the builder's 
     ///   object stack based on its lifetime.
