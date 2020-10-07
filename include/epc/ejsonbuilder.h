@@ -117,9 +117,10 @@ public:
     Void pop(const EString &name = "");
 
     /// @brief Returns a string representation of the json objects
+    /// @param pretty controls whether pretty printing is used
     /// @return a constant pointer to the character buffer held by this object
     /// @throw EJsonBuilder_NonEmptyStack 
-    cpStr toString();
+    cpStr toString(Bool pretty = false);
 
 private:
     class Impl;
