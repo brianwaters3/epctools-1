@@ -19,6 +19,7 @@
 #define RAPIDJSON_NAMESPACE epctoolsrapidjson
 #include "rapidjson/document.h"
 #include "rapidjson/writer.h"
+#include "rapidjson/prettywriter.h"
 #include "rapidjson/stringbuffer.h"
 
 /// @cond DOXYGEN_EXCLUDE
@@ -31,8 +32,9 @@ public:
    Void push(ContainerType type);
    Void push(const EString &value);
    Void push(UInt value);
+   Void push(Bool value);
    Void pop(const EString &name = "");
-   cpStr toString();
+   cpStr toString(bool pretty);
 
 private:
    Void updateCurrValue();
@@ -81,6 +83,12 @@ Void EJsonBuilder::Impl::push(UInt value)
    updateCurrValue();
 }
 
+Void EJsonBuilder::Impl::push(Bool value)
+{
+   m_value_stack.emplace_back(value);
+   updateCurrValue();
+}
+
 Void EJsonBuilder::Impl::pop(const EString &name)
 {
    if (m_value_stack.empty())
@@ -116,14 +124,25 @@ Void EJsonBuilder::Impl::updateCurrValue()
       m_curr_value = &m_doc;
 }
 
-cpStr EJsonBuilder::Impl::toString()
+cpStr EJsonBuilder::Impl::toString(bool pretty)
 {
    if (!m_value_stack.empty())
       throw EJsonBuilder_NonEmptyStack();
 
    m_buf.Clear();
-   RAPIDJSON_NAMESPACE::Writer<RAPIDJSON_NAMESPACE::StringBuffer> writer(m_buf);
-   m_doc.Accept( writer );
+
+   if (pretty)
+   {
+      RAPIDJSON_NAMESPACE::PrettyWriter<RAPIDJSON_NAMESPACE::StringBuffer> writer(m_buf);
+      writer.SetIndent(' ', 3);
+      m_doc.Accept(writer);
+   }
+   else
+   {
+      RAPIDJSON_NAMESPACE::Writer<RAPIDJSON_NAMESPACE::StringBuffer> writer(m_buf);
+      m_doc.Accept(writer);
+   }
+   
    return m_buf.GetString();
 }
 /// @endcond
@@ -147,6 +166,7 @@ EJsonBuilder::StackValue<T>::StackValue(EJsonBuilder &builder, const T &value, c
 // Explicit Instantiations
 template class EJsonBuilder::StackValue<UInt>;
 template class EJsonBuilder::StackValue<EString>;
+template class EJsonBuilder::StackValue<Bool>;
 
 template<EJsonBuilder::ContainerType T>
 EJsonBuilder::StackContainer<T>::StackContainer(EJsonBuilder &builder, const EString &name)
@@ -186,9 +206,9 @@ Void EJsonBuilder::pop(const EString &name)
    impl().pop(name);
 }
 
-cpStr EJsonBuilder::toString()
+cpStr EJsonBuilder::toString(bool pretty)
 {
-   return impl().toString();
+   return impl().toString(pretty);
 }
 
 EJsonBuilder::Impl &EJsonBuilder::impl() { return *m_impl.get(); }

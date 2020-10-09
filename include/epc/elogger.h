@@ -184,16 +184,30 @@ public:
    /// @brief Flushes any unwritten log messages to the underlying sinks.
    Void flush() { m_log->flush(); }
 
-   /// @brief Assign a log level for this logger.  Any log messages lower than the specified log level will not be written.
+   /// @brief Assign a log level for this logger. Any log messages lower than the specified log level will not be written.
    /// @param lvl the log level to assign.
    Void setLogLevel( LogLevel lvl ) { m_log->set_level((spdlog::level::level_enum)lvl); }
+   /// @brief Assign a log level for this logger from a log level name. Any log messages lower than the specified log level will not be written.
+   /// @param lvl_name the log level name to assign.
+   Void setLogLevel( cpStr lvl_name ) { setLogLevel((LogLevel)spdlog::level::from_str(lvl_name)); }
    /// @brief Retrieve the currently assigned log level.
    /// @return the current log level.
    LogLevel getLogLevel() { return (LogLevel)m_log->level(); }
+   /// @brief Retrieve the name of the currently assigned log level.
+   /// @return the current log level name.
+   EString getLogLevelName() const;
 
    /// @brief Retrieve the name (category) of the logger.
    /// @return the logger name.
-   const std::string & get_name() { return m_log->name(); }
+   const std::string &get_name() { return m_log->name(); }
+
+   /// @brief Retrieve the sink id of the logger.
+   /// @return the sink id.
+   Int getSinkId() const { return m_sinkid; }
+
+   /// @brief Retrieve the log id of the logger.
+   /// @return the log id.
+   Int getLogId() const { return m_logid; }
 
    /// @brief Retrieve the current log level from the underlying spdlog object.
    /// @return the spdlog log level.
@@ -204,7 +218,11 @@ public:
 
    /// @brief Retrieve the defined loggers.
    /// @return the logger collection.
-   const std::map<std::string,std::shared_ptr<ELogger>> get_loggers() { return m_logs_by_name; }
+   static const std::map<std::string,std::shared_ptr<ELogger>> &get_loggers() { return m_logs_by_name; }
+
+   /// @brief Retrieve the defined sink sets.
+   /// @return the sink set collection.
+   static const std::unordered_map<Int,std::shared_ptr<ELoggerSinkSet>> &get_sinksets() { return m_sinksets; }
 
 protected:
    /// @brief Initilizes the logs from the configuration file.
@@ -249,7 +267,9 @@ public:
       /// a rotating set of files
       eRotatingFile,
       /// a file that rolls over each day at a specified time
-      eDailyFile
+      eDailyFile,
+      /// a ring buffer that contains n items
+      eRingBuffer
    };
 
    /// @brief Class destructor
@@ -261,6 +281,9 @@ public:
    /// @brief Retrieves the log level for this sink.
    /// @return the sink log level.
    ELogger::LogLevel getLogLevel() { return (ELogger::LogLevel)m_sinkptr->level(); }
+   /// @brief Retrieve the name of the currently assigned log level.
+   /// @return the current log level name.
+   EString getLogLevelName() const;
    /// @brief Retrieves the log message formatting pattern.
    /// @return the log message formatting pattern.
    EString &getPattern() { return m_pattern; }
@@ -270,6 +293,10 @@ public:
    /// @return the assigned sink log level.
    ELogger::LogLevel setLogLevel( ELogger::LogLevel loglevel )
       { m_sinkptr->set_level( (spdlog::level::level_enum)loglevel ); m_loglevel = loglevel; return getLogLevel(); }
+   /// @brief Assign a log level for this sink from a log level name.
+   /// @param lvl_name the log level name to assign.
+   ELogger::LogLevel setLogLevel( cpStr lvl_name ) 
+      { return setLogLevel((ELogger::LogLevel)spdlog::level::from_str(lvl_name)); }
    /// @brief Assigns the log message formatting pattern.
    /// @param pattern the log message formatting pattern.
    /// @return the log message formatting pattern.
@@ -449,6 +476,31 @@ private:
    Bool m_truncate;
    Int m_rolloverhour;
    Int m_rolloverminute;
+};
+
+/// @brief A ring buffer sink.
+class ELoggerSinkRingBuffer : public ELoggerSink
+{
+public:
+   /// @brief Class constructor.
+   /// @param loglevel the sink log level.
+   /// @param pattern the log message formatting pattern.
+   /// @param nitems the number of items to store in the buffer.
+   ELoggerSinkRingBuffer( ELogger::LogLevel loglevel, cpStr pattern, size_t nitems );
+   /// @brief Class destructor.
+   virtual ~ELoggerSinkRingBuffer() {}
+
+   /// @brief Retrieves the number of items stored in the buffer.
+   /// @return the number of items.
+   size_t getNumberItems() { return m_nitems; }
+
+   /// @brief Retrieves the last items stored in the buffer as formatted strings.
+   /// @param limit the maximum number of items to retrieve.
+   /// @return A vector of strings of the last items stored in the buffer.
+   std::vector<std::string> lastFormatted(size_t limit = 0);
+
+private:
+   size_t m_nitems;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

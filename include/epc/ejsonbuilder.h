@@ -68,6 +68,7 @@ public:
 
     using StackString = StackValue<EString>;
     using StackUInt = StackValue<UInt>;
+    using StackBool = StackValue<Bool>;
 
     /// @brief A helper class which pushes/pops items on the builder's 
     ///   object stack based on its lifetime.
@@ -116,9 +117,10 @@ public:
     Void pop(const EString &name = "");
 
     /// @brief Returns a string representation of the json objects
+    /// @param pretty controls whether pretty printing is used
     /// @return a constant pointer to the character buffer held by this object
     /// @throw EJsonBuilder_NonEmptyStack 
-    cpStr toString();
+    cpStr toString(Bool pretty = false);
 
 private:
     class Impl;

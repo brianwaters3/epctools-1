@@ -71,6 +71,7 @@ UInt MessageStats::incSent(UInt attempt)
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+ERWLock Stats::lastresetlck_;
 ETime Stats::lastreset_;
 
 Void Stats::collectNodeStats(EJsonBuilder &builder)
@@ -170,7 +171,10 @@ Void Stats::collectNodeStats(EJsonBuilder &builder)
 
 Void Stats::reset()
 {
-   lastreset_ = ETime::Now();
+   {
+      EWRLock lck(lastresetlck_);
+      lastreset_ = ETime::Now();
+   }
 
    std::vector<LocalNodeSPtr> localNodes;
    {
@@ -198,6 +202,12 @@ Void Stats::reset()
          remoteNode.stats().reset();
       }
    }
+}
+
+ETime Stats::lastReset()
+{
+   ERDLock lck(lastresetlck_);
+   return lastreset_;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
