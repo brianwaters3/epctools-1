@@ -96,6 +96,7 @@ AC_CONFIG_COMMANDS([freeDiameter],[
         pushd modules/freeDiameter/build
         cmake ..
         awk '{if (/^DISABLE_SCTP/) gsub(/OFF/, "ON"); print}' CMakeCache.txt > tmp && mv tmp CMakeCache.txt
+	awk '{if (/SCTP_RECVRCVINFO/ && count < 1){ gsub("SCTP_RECVRCVINFO","SCTP_NOTIFICATIONS_STOPPED_EVENT"); count++} print}' libfdcore/sctp.c >tmp && mv tmp libfdcore/sctp.c
         make
         sudo make install
         popd
