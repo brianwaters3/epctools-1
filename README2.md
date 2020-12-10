@@ -127,10 +127,17 @@ sudo apt-get install mercurial cmake make gcc g++ bison flex libsctp-dev libgnut
 ```sh
 sudo apt-get install mercurial cmake make gcc g++ bison flex libsctp-dev libgnutls28-dev libgcrypt-dev libidn11-dev libpcap-dev m4 automake libtool
 ```
+***Install CentOS 8 prerequisites.***
+```sh
+sudo yum --assumeyes group install "Development Tools"
+sudo yum --assumeyes install cmake gnutls-devel libgcrypt-devel
+sudo yum --assumeyes --enablerepo=powertools install lksctp-tools-devel libidn-devel libstdc++-static libpcap-devel
+```
 ***Clone the project, install the dependencies (via configure), build the static library and install.***
 ```sh
 $ git clone https://github.com/brianwaters3/epctools.git epctools
 $ cd epctools
+$ autoreconf -f -i
 $ ./configure
 $ make
 $ sudo make install
@@ -139,6 +146,7 @@ $ sudo make install
 ***To compile with optimization disabled run the following***
 ```sh
 $ cd epctools
+$ autoreconf -f -i
 $ env CXXFLAGS="$CXXFLAGS -O0 -g" ./configure
 $ make clean
 $ make

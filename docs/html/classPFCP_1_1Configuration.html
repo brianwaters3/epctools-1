@@ -175,6 +175,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a276a391e721e3a255040756a4fada543"><td class="memTemplParams" colspan="2">template&lt;class TWorker &gt; </td></tr>
 <tr class="memitem:a276a391e721e3a255040756a4fada543"><td class="memTemplItemLeft" align="right" valign="top">static Void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classPFCP_1_1Configuration.html#a276a391e721e3a255040756a4fada543">setApplication</a> (<a class="el" href="classPFCP_1_1ApplicationWorkGroup.html">ApplicationWorkGroup</a>&lt; TWorker &gt; &amp;app)</td></tr>
 <tr class="separator:a276a391e721e3a255040756a4fada543"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08e4026d2940019f44dd743dfbab44d8"><td class="memItemLeft" align="right" valign="top">static MessageStatsMap &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPFCP_1_1Configuration.html#a08e4026d2940019f44dd743dfbab44d8">messageStatsTemplate</a> ()</td></tr>
+<tr class="memdesc:a08e4026d2940019f44dd743dfbab44d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a reference to the message stats template map. Derived applications should populate this with entries for each message type they want to track statistics for. To populate entries, emplace() a MessageStats object in the map with the current message type returned by the <a class="el" href="classPFCP_1_1Translator.html" title="The PFCP Translator is used to encode and decode PFCP messages. This is a pure virtual base class tha...">Translator</a> object in use (e.g. <a class="el" href="classPFCP_1_1Configuration.html#aeecdca6e15917852e9e4146e68f9a400">Configuration::translator()</a>.pfcp*Req())  <a href="#a08e4026d2940019f44dd743dfbab44d8">More...</a><br /></td></tr>
+<tr class="separator:a08e4026d2940019f44dd743dfbab44d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -405,6 +408,32 @@ Static Protected Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a08e4026d2940019f44dd743dfbab44d8"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static MessageStatsMap&amp; PFCP::Configuration::messageStatsTemplate </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns a reference to the message stats template map. Derived applications should populate this with entries for each message type they want to track statistics for. To populate entries, emplace() a MessageStats object in the map with the current message type returned by the <a class="el" href="classPFCP_1_1Translator.html" title="The PFCP Translator is used to encode and decode PFCP messages. This is a pure virtual base class tha...">Translator</a> object in use (e.g. <a class="el" href="classPFCP_1_1Configuration.html#aeecdca6e15917852e9e4146e68f9a400">Configuration::translator()</a>.pfcp*Req()) </p>
+<dl class="section return"><dt>Returns</dt><dd>a reference to the messages stats template map </dd></dl>
 
 </div>
 </div>
@@ -1170,8 +1199,8 @@ template&lt;class TWorker &gt; </div>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/home/vagrant/share/code/epctools-omec-pfcp/include/epc/<a class="el" href="epfcp_8h_source.html">epfcp.h</a></li>
-<li>/home/vagrant/share/code/epctools-omec-pfcp/src/<a class="el" href="epfcp_8cpp.html">epfcp.cpp</a></li>
+<li>/home/vagrant/share/code/epctoolsbw2/include/epc/<a class="el" href="epfcp_8h_source.html">epfcp.h</a></li>
+<li>/home/vagrant/share/code/epctoolsbw2/src/<a class="el" href="epfcp_8cpp.html">epfcp.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

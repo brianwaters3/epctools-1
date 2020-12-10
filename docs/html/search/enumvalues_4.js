@@ -16,6 +16,7 @@ var searchData=
   ['enodeb_5fgtpu_5finterface_5ffor_5ful_5fdata_5fforwarding',['eNodeB_GTPU_interface_for_UL_data_forwarding',['../namespacePFCP__R15.html#a35ba6d23db62c67e98fbf036ab04f8f9a0a4268931e77b0f4542e8701d7936127',1,'PFCP_R15']]],
   ['eoff',['eOff',['../classELogger.html#a22fb57bad0e9b0ead993bf7dfb3d3968a725ff2a12b723ead3ade51c59207f600',1,'ELogger']]],
   ['eon',['EON',['../classEIpFilterRule.html#abbcce7120f0f2b76865cd22ca6d9122baf1cfe7ee38d400de36d7d68421800a19',1,'EIpFilterRule']]],
+  ['eringbuffer',['eRingBuffer',['../classELoggerSink.html#acbf2dda13ee6f4a4b0e7201d8eee563faa66f5d204e9aaaf302e13f1798603eb4',1,'ELoggerSink']]],
   ['erotatingfile',['eRotatingFile',['../classELoggerSink.html#acbf2dda13ee6f4a4b0e7201d8eee563fab1ebe4445c03eeef11632d0c2b92c41e',1,'ELoggerSink']]],
   ['error',['Error',['../classEError.html#a74f6b6a08d7437d3af94162b2a933498a851a12ccab82c36ac8e7f005d0eb04f9',1,'EError']]],
   ['esp',['ESP',['../classEIpFilterRule.html#abbcce7120f0f2b76865cd22ca6d9122ba3e30ce90c5b1d89ae09b7d4c73d8e172',1,'EIpFilterRule']]],

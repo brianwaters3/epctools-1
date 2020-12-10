@@ -108,10 +108,11 @@ Inheritance diagram for ELoggerSink:</div>
   <map id="ELoggerSink_map" name="ELoggerSink_map">
 <area href="classELoggerSinkBasicFile.html" title="A basic file sink. " alt="ELoggerSinkBasicFile" shape="rect" coords="0,56,150,80"/>
 <area href="classELoggerSinkDailyFile.html" title="A daily file sink. " alt="ELoggerSinkDailyFile" shape="rect" coords="160,56,310,80"/>
-<area href="classELoggerSinkRotatingFile.html" title="A rotating file sink. " alt="ELoggerSinkRotatingFile" shape="rect" coords="320,56,470,80"/>
-<area href="classELoggerSinkStderr.html" title="A standard error sink. " alt="ELoggerSinkStderr" shape="rect" coords="480,56,630,80"/>
-<area href="classELoggerSinkStdout.html" title="A standard output sink. " alt="ELoggerSinkStdout" shape="rect" coords="640,56,790,80"/>
-<area href="classELoggerSinkSyslog.html" title="A syslog sink. " alt="ELoggerSinkSyslog" shape="rect" coords="800,56,950,80"/>
+<area href="classELoggerSinkRingBuffer.html" title="A ring buffer sink. " alt="ELoggerSinkRingBuffer" shape="rect" coords="320,56,470,80"/>
+<area href="classELoggerSinkRotatingFile.html" title="A rotating file sink. " alt="ELoggerSinkRotatingFile" shape="rect" coords="480,56,630,80"/>
+<area href="classELoggerSinkStderr.html" title="A standard error sink. " alt="ELoggerSinkStderr" shape="rect" coords="640,56,790,80"/>
+<area href="classELoggerSinkStdout.html" title="A standard output sink. " alt="ELoggerSinkStdout" shape="rect" coords="800,56,950,80"/>
+<area href="classELoggerSinkSyslog.html" title="A syslog sink. " alt="ELoggerSinkSyslog" shape="rect" coords="960,56,1110,80"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -124,7 +125,8 @@ Public Types</h2></td></tr>
 <a class="el" href="classELoggerSink.html#acbf2dda13ee6f4a4b0e7201d8eee563fa43513a12ff3ff778aa729bde16b99f63">eBasicFile</a>, 
 <br />
 &#160;&#160;<a class="el" href="classELoggerSink.html#acbf2dda13ee6f4a4b0e7201d8eee563fab1ebe4445c03eeef11632d0c2b92c41e">eRotatingFile</a>, 
-<a class="el" href="classELoggerSink.html#acbf2dda13ee6f4a4b0e7201d8eee563faa377a1b5bc6814d77dfb9abfd6e7e50e">eDailyFile</a>
+<a class="el" href="classELoggerSink.html#acbf2dda13ee6f4a4b0e7201d8eee563faa377a1b5bc6814d77dfb9abfd6e7e50e">eDailyFile</a>, 
+<a class="el" href="classELoggerSink.html#acbf2dda13ee6f4a4b0e7201d8eee563faa66f5d204e9aaaf302e13f1798603eb4">eRingBuffer</a>
 <br />
  }<tr class="memdesc:acbf2dda13ee6f4a4b0e7201d8eee563f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the type of output sinks.  <a href="classELoggerSink.html#acbf2dda13ee6f4a4b0e7201d8eee563f">More...</a><br /></td></tr>
 </td></tr>
@@ -141,12 +143,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a371c03b19187f92ea4073eae48e23e77"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classELogger.html#a22fb57bad0e9b0ead993bf7dfb3d3968">ELogger::LogLevel</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classELoggerSink.html#a371c03b19187f92ea4073eae48e23e77">getLogLevel</a> ()</td></tr>
 <tr class="memdesc:a371c03b19187f92ea4073eae48e23e77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the log level for this sink.  <a href="#a371c03b19187f92ea4073eae48e23e77">More...</a><br /></td></tr>
 <tr class="separator:a371c03b19187f92ea4073eae48e23e77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3861d9f91b2851e08e66968de074a3d7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classEString.html">EString</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classELoggerSink.html#a3861d9f91b2851e08e66968de074a3d7">getLogLevelName</a> () const </td></tr>
+<tr class="memdesc:a3861d9f91b2851e08e66968de074a3d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the name of the currently assigned log level.  <a href="#a3861d9f91b2851e08e66968de074a3d7">More...</a><br /></td></tr>
+<tr class="separator:a3861d9f91b2851e08e66968de074a3d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a55527e51410be93a3d9260222642b340"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classEString.html">EString</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classELoggerSink.html#a55527e51410be93a3d9260222642b340">getPattern</a> ()</td></tr>
 <tr class="memdesc:a55527e51410be93a3d9260222642b340"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the log message formatting pattern.  <a href="#a55527e51410be93a3d9260222642b340">More...</a><br /></td></tr>
 <tr class="separator:a55527e51410be93a3d9260222642b340"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9a296a1ff8322bc1330a007ee77eaea6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classELogger.html#a22fb57bad0e9b0ead993bf7dfb3d3968">ELogger::LogLevel</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classELoggerSink.html#a9a296a1ff8322bc1330a007ee77eaea6">setLogLevel</a> (<a class="el" href="classELogger.html#a22fb57bad0e9b0ead993bf7dfb3d3968">ELogger::LogLevel</a> loglevel)</td></tr>
 <tr class="memdesc:a9a296a1ff8322bc1330a007ee77eaea6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assigns the sink log level.  <a href="#a9a296a1ff8322bc1330a007ee77eaea6">More...</a><br /></td></tr>
 <tr class="separator:a9a296a1ff8322bc1330a007ee77eaea6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c3912631bb1ab487599d55d758d71d8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classELogger.html#a22fb57bad0e9b0ead993bf7dfb3d3968">ELogger::LogLevel</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classELoggerSink.html#a1c3912631bb1ab487599d55d758d71d8">setLogLevel</a> (cpStr lvl_name)</td></tr>
+<tr class="memdesc:a1c3912631bb1ab487599d55d758d71d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assign a log level for this sink from a log level name.  <a href="#a1c3912631bb1ab487599d55d758d71d8">More...</a><br /></td></tr>
+<tr class="separator:a1c3912631bb1ab487599d55d758d71d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abbdaef60ec277a6074b3e5bf93b04b54"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classEString.html">EString</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classELoggerSink.html#abbdaef60ec277a6074b3e5bf93b04b54">setPattern</a> (cpStr pattern)</td></tr>
 <tr class="memdesc:abbdaef60ec277a6074b3e5bf93b04b54"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assigns the log message formatting pattern.  <a href="#abbdaef60ec277a6074b3e5bf93b04b54">More...</a><br /></td></tr>
 <tr class="separator:abbdaef60ec277a6074b3e5bf93b04b54"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -201,6 +209,9 @@ Protected Member Functions</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a class="anchor" id="acbf2dda13ee6f4a4b0e7201d8eee563faa377a1b5bc6814d77dfb9abfd6e7e50e"></a>eDailyFile&#160;</td><td class="fielddoc">
 <p>a file that rolls over each day at a specified time </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="acbf2dda13ee6f4a4b0e7201d8eee563faa66f5d204e9aaaf302e13f1798603eb4"></a>eRingBuffer&#160;</td><td class="fielddoc">
+<p>a ring buffer that contains n items </p>
 </td></tr>
 </table>
 
@@ -335,6 +346,24 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a3861d9f91b2851e08e66968de074a3d7"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classEString.html">EString</a> ELoggerSink::getLogLevelName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retrieve the name of the currently assigned log level. </p>
+<dl class="section return"><dt>Returns</dt><dd>the current log level name. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a55527e51410be93a3d9260222642b340"></a>
 <div class="memitem">
 <div class="memproto">
@@ -446,6 +475,38 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a1c3912631bb1ab487599d55d758d71d8"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classELogger.html#a22fb57bad0e9b0ead993bf7dfb3d3968">ELogger::LogLevel</a> ELoggerSink::setLogLevel </td>
+          <td>(</td>
+          <td class="paramtype">cpStr&#160;</td>
+          <td class="paramname"><em>lvl_name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Assign a log level for this sink from a log level name. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lvl_name</td><td>the log level name to assign. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="abbdaef60ec277a6074b3e5bf93b04b54"></a>
 <div class="memitem">
 <div class="memproto">
@@ -513,8 +574,8 @@ Protected Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/home/vagrant/share/code/epctools-omec-pfcp/include/epc/<a class="el" href="elogger_8h_source.html">elogger.h</a></li>
-<li>/home/vagrant/share/code/epctools-omec-pfcp/src/<a class="el" href="elogger_8cpp.html">elogger.cpp</a></li>
+<li>/home/vagrant/share/code/epctoolsbw2/include/epc/<a class="el" href="elogger_8h_source.html">elogger.h</a></li>
+<li>/home/vagrant/share/code/epctoolsbw2/src/<a class="el" href="elogger_8cpp.html">elogger.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
