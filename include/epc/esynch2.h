@@ -100,7 +100,7 @@ public:
    Void setPublicQueue(Int idx, cpChar pName, Int queueid, Int msgSize,
                        Int msgCnt, Bool multipleReaders, Bool multipleWriters)
    {
-      epc_strcpy_s(m_pPubQueues[idx].m_name, sizeof(m_pPubQueues[idx].m_name), pName);
+      epc_strcpy_s(m_pPubQueues[idx].m_name, sizeof(m_pPubQueues[idx].m_name) - 1, pName);
       m_pPubQueues[idx].m_queueid = queueid;
       m_pPubQueues[idx].m_msgSize = msgSize;
       m_pPubQueues[idx].m_msgCnt = msgCnt;
