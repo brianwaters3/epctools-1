@@ -41,3 +41,17 @@ pfcp/pfcptest/wrapper/.deps
 pfcp/pfcptest/wrapper/.dirstamp
 docDoxyfile.bak
 epctools.code-workspace
+INSTALL
+Makefile.in
+aclocal.m4
+compile
+configure
+depcomp
+install-sh
+missing
+exampleProgram/Makefile.in
+include/Makefile.in
+pfcp/pfcpex/Makefile.in
+pfcp/pfcpr15/Makefile.in
+pfcp/pfcptest/Makefile.in
+src/Makefile.in
