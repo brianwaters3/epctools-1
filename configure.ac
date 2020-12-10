@@ -25,7 +25,7 @@ AC_PROG_CXX
 dnl AC_CANONICAL_SYSTEM
 
 dnl Initialize automake
-AM_INIT_AUTOMAKE(subdir-objects)
+AM_INIT_AUTOMAKE(subdir-objects no-dependencies)
 
 dnl this allows us specify individual liking flags for each target
 AM_PROG_CC_C_O 
