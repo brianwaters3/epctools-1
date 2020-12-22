@@ -3294,11 +3294,12 @@ Void eipfilterruleTest()
    r = "permit in 0 from 1.2.3.4/24 to 5.6.7.8/17"; r.dump();  std::cout << std::endl;
    r = "permit in 0 from 1.2.3.4/24 111 to 5.6.7.8/17 111,222,333-444,555-666"; r.dump();  std::cout << std::endl;
    r = "permit in ip from any to any frag ipoptions aaaaa tcpoptions bbbbb established setup tcpflags fin,syn,rst,psh,ack,urg icmptypes 0,12,3,4,5";       r.dump();   std::cout << std::endl;
+   r = "permit in 58 from any any to ff05::2 any";       r.dump();   std::cout << std::endl;
 
-   EIpAddress a("1.2.3.4/25"), b("5.6.7.8/17"), c("5.6.7.8/18");
-   std::cout << "std::hash(" << a.address() << ") = " << std::hash<EIpAddress>{}(a) << std::endl;
-   std::cout << "std::hash(" << b.address() << ") = " << std::hash<EIpAddress>{}(b) << std::endl;
-   std::cout << "std::hash(" << c.address() << ") = " << std::hash<EIpAddress>{}(c) << std::endl;
+   // EIpAddress a("1.2.3.4/25"), b("5.6.7.8/17"), c("5.6.7.8/18");
+   // std::cout << "std::hash(" << a.address() << ") = " << std::hash<EIpAddress>{}(a) << std::endl;
+   // std::cout << "std::hash(" << b.address() << ") = " << std::hash<EIpAddress>{}(b) << std::endl;
+   // std::cout << "std::hash(" << c.address() << ") = " << std::hash<EIpAddress>{}(c) << std::endl;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////

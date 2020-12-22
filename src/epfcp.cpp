@@ -232,6 +232,8 @@ Int Configuration::tmaxw_                          = 1;
 _EThreadEventNotification *Configuration::app_     = nullptr;
 ApplicationWorkGroupBase *Configuration::baseapp_  = nullptr;
 MessageStatsMap Configuration::msgstats_template_;
+SeidManager Configuration::seidmgr_;
+
 MsgType Configuration::pfcpHeartbeatReq            = 1;
 MsgType Configuration::pfcpHeartbeatRsp            = 2;
 MsgType Configuration::pfcpSessionEstablishmentReq = 50;
@@ -648,6 +650,8 @@ RemoteNode &RemoteNode::delSession(SessionBaseSPtr &s)
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+SeidManager LocalNode::seidmgr_;
+
 LocalNode::LocalNode()
    : state_(LocalNode::State::Initialized)
 {
@@ -899,7 +903,7 @@ Void LocalNode::onReceive(LocalNodeSPtr &ln, const ESocket::Address &src, const 
    try
    {
       // get the msg header info
-      Configuration::translator().getMsgInfo(tmi, msg, len);
+      translator().getMsgInfo(tmi, msg, len);
 
       // lookup the remote node and create it if it does not exist
       {
@@ -1575,7 +1579,6 @@ END_MESSAGE_MAP()
 
 /// @cond DOXYGEN_EXCLUDE
 TranslationThread::TranslationThread()
-   : xlator_(Configuration::translator())
 {
    static EString __method__ = __METHOD_NAME__;
 
@@ -1637,7 +1640,7 @@ Void TranslationThread::onSndPfcpMsg(EThreadMessage &msg)
                amrq->msgType() == Configuration::pfcpSessionEstablishmentReq ||
                static_cast<AppMsgSessionReqPtr>(amrq)->session()->remoteSeid() != 0)
          {
-            reqout = xlator_.encodeReq(amrq);
+            reqout = amrq->localNode()->translator().encodeReq(amrq);
             SEND_TO_COMMUNICATION(SndReq, reqout);
          }
          else
@@ -1683,7 +1686,7 @@ Void TranslationThread::onSndPfcpMsg(EThreadMessage &msg)
 
       try
       {
-         rspout = xlator_.encodeRsp(amrs);
+         rspout = amrs->localNode()->translator().encodeRsp(amrs);
          SEND_TO_COMMUNICATION(SndRsp, rspout);
       }
       catch(SndRspException &e)
@@ -1718,11 +1721,11 @@ Void TranslationThread::onRcvdReq(EThreadMessage &msg)
 
    try
    {
-      if (xlator_.isVersionSupported(ri->version()))
+      if (ri->localNode()->translator().isVersionSupported(ri->version()))
       {
          if (ri->msgType() == Configuration::pfcpHeartbeatReq)
          {
-            hb = xlator_.decodeHeartbeatReq(ri);
+            hb = ri->localNode()->translator().decodeHeartbeatReq(ri);
             // Configuration::logger().debug(
             //    "{} - received heartbeat request local={} remote={} seqNbr={}",
             //    __method__, ri->localNode()->address().getAddress(),
@@ -1743,7 +1746,7 @@ Void TranslationThread::onRcvdReq(EThreadMessage &msg)
                   __method__, ri->localNode()->address().getAddress(), ri->remoteNode()->address().getAddress(),
                   ri->msgType(), ri->msgClass()==MsgClass::Node?"NODE":"UNKNOWN", ri->seqNbr());
             }
-            req = xlator_.decodeReq(ri);
+            req = ri->localNode()->translator().decodeReq(ri);
             if (req == nullptr)
                throw RcvdReqException();
             
@@ -1773,7 +1776,7 @@ Void TranslationThread::onRcvdReq(EThreadMessage &msg)
       else
       {
          // if the version is not supported, snd version not supported
-         RspOutPtr ro = xlator_.encodeVersionNotSupportedRsp(ri);
+         RspOutPtr ro = ri->localNode()->translator().encodeVersionNotSupportedRsp(ri);
          SEND_TO_COMMUNICATION(SndRsp, ro);
       }
       delete ri;
@@ -1807,7 +1810,7 @@ Void TranslationThread::onRcvdRsp(EThreadMessage &msg)
             "{} - received heartbeat response local={} remote={} seqNbr={}",
             __method__, ri->localNode()->address().getAddress(),
             ri->remoteNode()->address().getAddress(), ri->seqNbr());
-         hb = xlator_.decodeHeartbeatRsp(ri);
+         hb = ri->localNode()->translator().decodeHeartbeatRsp(ri);
          SEND_TO_COMMUNICATION(HeartbeatRsp, hb);
       }
       else
@@ -1825,7 +1828,7 @@ Void TranslationThread::onRcvdRsp(EThreadMessage &msg)
                ri->msgType(), ri->msgClass()==MsgClass::Node?"NODE":"SESSION", ri->seqNbr());
          }
          
-         rsp = xlator_.decodeRsp(ri);
+         rsp = ri->localNode()->translator().decodeRsp(ri);
          if (rsp == nullptr)
             throw RcvdRspException();
 
@@ -1877,7 +1880,7 @@ Void TranslationThread::onSndHeartbeatReq(EThreadMessage &msg)
    {
       Configuration::logger().debug("{} - sending heartbeat request to {}",
          __method__, req->remoteNode()->address().getAddress());
-      reqout = xlator_.encodeHeartbeatReq(*req);
+      reqout = req->localNode()->translator().encodeHeartbeatReq(*req);
       SEND_TO_COMMUNICATION(SndReq, reqout);
       delete req;
    }
@@ -1901,7 +1904,7 @@ Void TranslationThread::onSndHeartbeatRsp(EThreadMessage &msg)
    {
       Configuration::logger().debug("{} - sending heartbeat response to {}",
          __method__, rsp->req().remoteNode()->address().getAddress());
-      rspout = xlator_.encodeHeartbeatRsp(*rsp);
+      rspout = rsp->req().localNode()->translator().encodeHeartbeatRsp(*rsp);
       SEND_TO_COMMUNICATION(SndRsp, rspout);
       delete rsp;
    }

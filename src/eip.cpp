@@ -85,7 +85,7 @@ EIpFilterRule &EIpFilterRule::parse(const std::string &raw)
    // match[6] - destination IP address with optional mask width
    // match[7] - optional destination port/port range list
    // match[8] - list of options
-   cpStr pattern = "(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+from\\s+(\\S+)(?:(?:\\s+)([0-9,\\-]+))?\\s+to\\s+(\\S+)(?:(?:\\s+)([0-9,\\-]+))?(?:(?:\\s+)(.*))?";
+   cpStr pattern = "(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+from\\s+(\\S+)(?:(?:\\s+)(any|[0-9,\\-]+))?\\s+to\\s+(\\S+)(?:(?:\\s+)(any|[0-9,\\-]+))?(?:(?:\\s+)(.*))?";
    std::regex re(pattern, std::regex::ECMAScript | std::regex::icase);
    std::sregex_iterator next(raw.begin(), raw.end(), re);
    std::sregex_iterator end;
@@ -148,7 +148,7 @@ EIpAddress EIpFilterRule::parseIpAddress(const EString &str)
    static cpStr pattern = "([0-9a-f\\.:]+)(?:(?:/)(\\d+))?";
    EString strlower = str;
    strlower.tolower();
-   if (strlower.compare("any") == 0)
+   if (strlower.compare("any") == 0 || strlower.compare("assigned") == 0)
       return EIpAddress().setAny(AF_INET);
 
    std::regex re(pattern, std::regex::ECMAScript | std::regex::icase);
@@ -180,6 +180,11 @@ EIpAddress EIpFilterRule::parseIpAddress(const EString &str)
 Void EIpFilterRule::parsePorts(const EString &str, PortVec &ports)
 {
    static cpStr pattern = "(\\d+)(?:-(\\d+))?";
+   EString strlower = str;
+   strlower.tolower();
+   if (strlower.compare("any") == 0)
+      return;
+
    std::regex re(pattern, std::regex::ECMAScript, std::regex::icase);
    std::sregex_iterator end;
    EStringVec strs = EUtility::split(str, ",");
