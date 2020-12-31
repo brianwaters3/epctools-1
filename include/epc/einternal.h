@@ -103,6 +103,11 @@ private:
 #define MEMBER_LOGGER_LOG_ID "LogID"
 #define MEMBER_LOGGER_CATEGORY "Category"
 
+#define SECTION_SIGNALS "Signals"
+#define MEMBER_SIGNALS_THREADTIMER "ThreadTimer"
+#define MEMBER_SIGNALS_TIMERPOOL_TIMER "TimerPoolTimer"
+#define MEMBER_SIGNALS_TIMERPOOL_QUIT "TimerPoolQuit"
+
 #define MEMBER_ENABLE_PUBLIC_OBJECTS "EnablePublicObjects"
 #define MEMBER_NUMBER_SEMAPHORES "NumberSemaphores"
 #define MEMBER_NUMBER_MUTEXES "NumberMutexes"

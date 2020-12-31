@@ -28,6 +28,9 @@ noinst_PROGRAMS = epctest
 # Sources for epc
 epctest_SOURCES = test.cpp
 
+# Add epctest dependencies
+epctest_DEPENDENCIES = ../src/libepc.a ../include/epc/*
+
 # Linker options libTestProgram
 #libepc_a_LDFLAGS = 
 

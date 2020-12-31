@@ -49,6 +49,7 @@ nobase_include_HEADERS =   \
    epc/eqpriv.h            \
    epc/eqpub.h             \
    epc/eshmem.h            \
+   epc/esignal.h           \
    epc/esocket.h           \
    epc/estatic.h           \
    epc/estats.h            \

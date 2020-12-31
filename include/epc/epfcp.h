@@ -69,6 +69,8 @@ namespace PFCP
    class RspOut;
    typedef RspOut *RspOutPtr;
 
+   class SeidManager;
+
    /////////////////////////////////////////////////////////////////////////////
    /////////////////////////////////////////////////////////////////////////////
 
@@ -335,6 +337,7 @@ namespace PFCP
       static _EThreadEventNotification *app_;
       static ApplicationWorkGroupBase *baseapp_;
       static MessageStatsMap msgstats_template_;
+      static SeidManager seidmgr_;
    };
 
    /////////////////////////////////////////////////////////////////////////////
@@ -655,7 +658,7 @@ private:                                                 \
    {
    public:
       /// @brief Default constructor.
-      Node() { ++created_; }
+      Node() { ++created_; xlator_ = &Configuration::translator(); }
       /// @brief Class destructor.
       virtual ~Node() { ++deleted_; }
 
@@ -702,6 +705,23 @@ private:                                                 \
          return it->second;
       }
 
+      /// @brief Returns the translator object associated with this node.
+      /// @return the tanslator object.
+      Translator &translator()
+      {
+         if (xlator_ == nullptr)
+            return Configuration::translator();
+         return *xlator_;
+      }
+
+      /// @brief Sets the translator object for this node.
+      /// @return a reference to this object.
+      Node &setTranslator(Translator &xlator)
+      {
+         xlator_ = &xlator;
+         return *this;
+      }
+
       static ULongLong nodesCreated() { return created_; }
       static ULongLong nodesDeleted() { return deleted_; }
 
@@ -736,6 +756,7 @@ private:                                                 \
       EIpAddress ipaddr_;
       ESocket::Address addr_;
       SessionBaseSPtrUMap sessions_;
+      Translator *xlator_;
    };
 
    typedef std::shared_ptr<Node> NodeSPtr;
@@ -1070,8 +1091,9 @@ private:                                                 \
       /// @endcond
 
    private:
+      static SeidManager seidmgr_;
+      
       State state_;
-      SeidManager seidmgr_;
       SequenceManager seqmgr_;
       NodeSocket socket_;
       ReqOutUMap roumap_;
@@ -2455,7 +2477,6 @@ Receiving a msg
    private:
       static TranslationThread *this_;
       TranslationThread();
-      Translator &xlator_;
    };
    /// @endcond
 

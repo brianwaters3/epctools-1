@@ -16,6 +16,8 @@
 */
 
 #include "etevent.h"
+#include "einternal.h"
+#include "esignal.h"
 
 /// @cond DOXYGEN_EXCLUDE
 
@@ -53,7 +55,27 @@ EThreadTimerError_UnableToRegisterTimerHandler::EThreadTimerError_UnableToRegist
 }
 
 Long EThreadEventTimer::m_nextid = 0;
+int EThreadEventTimer::m_signo = ETHREADTIMER_SIGNAL;
 
 static EThreadEventTimerHandler _initTimerHandler;
+
+Void EThreadEventTimerHandler::init(EGetOpt &options)
+{
+   options.setPrefix(SECTION_TOOLS "/" SECTION_SIGNALS);
+   EThreadEventTimer::setSignal(options.get(MEMBER_SIGNALS_THREADTIMER, ETHREADTIMER_SIGNAL));
+   options.setPrefix("");
+
+   struct sigaction sa;
+   sa.sa_flags = SA_SIGINFO;
+   sa.sa_sigaction = EThreadEventTimer::_timerHandler;
+   sigemptyset(&sa.sa_mask);
+   int signo = EThreadEventTimer::getSignal();
+   if (sigaction(signo, &sa, NULL) == -1)
+      throw EThreadTimerError_UnableToRegisterTimerHandler();
+}
+
+Void EThreadEventTimerHandler::uninit()
+{
+}
 
 /// @endcond

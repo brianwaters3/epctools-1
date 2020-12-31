@@ -6,6 +6,11 @@
             "NumberSemaphores": 100,
             "NumberMutexes": 100
         },
+        "Signals": {
+            "ThreadTimer": 34,
+            "TimerPoolTimer": 35,
+            "TimerPoolQuit": 36
+        },
         "Logger": {
             "ApplicationName": "epctest",
             "QueueSize": 8192,
@@ -96,26 +101,6 @@
             "QueueID": 9999,
             "QueueMode": "WriteOnly"
         },
-        "Logger": [
-            {
-                "LogID": 1,
-                "Segments": 1,
-                "LinesPerSegment": 10,
-                "FileNameMask": "./testlog1_%A_%S.log",
-                "LogType": "File",
-                "DefaultLogMask": "0x0000000000000000",
-                "FTInternalLog": false
-            },
-            {
-                "LogID": 2,
-                "Segments": 2,
-                "LinesPerSegment": 10,
-                "FileNameMask": "./testlog2_%A_%S.log",
-                "LogType": "File",
-                "DefaultLogMask": "0x0000000000000000",
-                "FTInternalLog": false
-            }
-        ],
         "PublicQueue": [
             {
                 "QueueID": 1,

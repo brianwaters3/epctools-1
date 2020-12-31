@@ -22,7 +22,9 @@
 #define _GNU_SOURCE
 #endif
 
+#include "esignal.h"
 #include "etimerpool.h"
+#include "einternal.h"
 
 #include <unistd.h>
 #include <sys/syscall.h>
@@ -49,14 +51,33 @@ ETimerPoolError_TimerSetTimeFailed::ETimerPoolError_TimerSetTimeFailed()
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+static ETimerPoolInit _timerPoolInit;
+
+Void ETimerPoolInit::init(EGetOpt &options)
+{
+   options.setPrefix(SECTION_TOOLS "/" SECTION_SIGNALS);
+   ETimerPool::setDefaultTimerSignal(options.get(MEMBER_SIGNALS_TIMERPOOL_TIMER, ETIMERPOOL_TIMER_SIGNAL));
+   ETimerPool::setDefaultQuitSignal(options.get(MEMBER_SIGNALS_TIMERPOOL_QUIT, ETIMERPOOL_QUIT_SIGNAL));
+   options.setPrefix("");
+}
+
+Void ETimerPoolInit::uninit()
+{
+}
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
 ETimerPool *ETimerPool::m_instance = NULL;
+int ETimerPool::m_defsigtimer = ETIMERPOOL_TIMER_SIGNAL;
+int ETimerPool::m_defsigquit = ETIMERPOOL_QUIT_SIGNAL;
 
 ETimerPool::ETimerPool()
    : m_thread(*this)
 {
    m_nextid = 0;
-   m_sigtimer = SIGRTMIN + 2;
-   m_sigquit = SIGRTMIN + 3;
+   m_sigtimer = m_defsigtimer;
+   m_sigquit = m_defsigquit;
    m_resolution = 5000;
    m_rounding = Rounding::down;
 }

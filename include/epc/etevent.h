@@ -825,31 +825,11 @@ public:
 /// @details EThreadBase::Timer represents an individual timer.  When the
 /// timer expires, the EM_TIMER event will be raised.  The application
 /// can handle the timer by overrideing the onTimer method.
-class EThreadEventTimer : public EStatic
+class EThreadEventTimer
 {
    friend class EThreadEventTimerHandler;
    template <class TQueue, class TMessage> friend class EThreadEvent;
    template <class TQueue, class TMessage, class TWorker> friend class EThreadEventWorkGroup;
-/// @cond DOXYGEN_EXCLUDE
-protected:
-   Void init(_EThreadEventNotification *notify, _EThreadEventMessageBase *msg)
-   {
-      if (isInitialized())
-         throw EThreadTimerError_AlreadyInitialized();
-
-      m_notify = notify;
-      m_msg = msg;
-
-      struct sigevent sev = {};
-      sev.sigev_notify = SIGEV_SIGNAL;
-      sev.sigev_signo = SIGRTMIN;
-      sev.sigev_value.sival_ptr = this;
-      if (timer_create(CLOCK_REALTIME, &sev, &m_timer) == -1)
-         throw EThreadTimerError_UnableToInitialize();
-      m_initialized = True;
-   }
-/// @endcond
-
 public:
    /// @brief Default class constructor.
    EThreadEventTimer()
@@ -960,9 +940,38 @@ public:
    /// The timer ID is created internally when the timer object is
    /// instantiated.
    Bool isInitialized() { return m_initialized; }
+   /// @brief Returns the timer signal.
+   /// @return the timer signal.
+   static int getSignal() { return m_signo; }
+
+   /// @cond DOXYGEN_EXCLUDE
+   virtual Int getInitType() { return STATIC_INIT_TYPE_THREADS; }
+   /// @endcond
 
 protected:
    /// @cond DOXYGEN_EXCLUDE
+   Void init(_EThreadEventNotification *notify, _EThreadEventMessageBase *msg)
+   {
+      if (isInitialized())
+         throw EThreadTimerError_AlreadyInitialized();
+
+      m_notify = notify;
+      m_msg = msg;
+
+      struct sigevent sev = {};
+      sev.sigev_notify = SIGEV_SIGNAL;
+      sev.sigev_signo = EThreadEventTimer::getSignal();
+      sev.sigev_value.sival_ptr = this;
+      if (timer_create(CLOCK_REALTIME, &sev, &m_timer) == -1)
+         throw EThreadTimerError_UnableToInitialize();
+      m_initialized = True;
+   }
+
+   static Void setSignal(int signo)
+   {
+      m_signo = signo;
+   }
+
    static void _timerHandler(int signo, siginfo_t *pinfo, void *pcontext)
    {
       EThreadEventTimer *timer = (EThreadEventTimer*)pinfo->si_value.sival_ptr;
@@ -973,6 +982,7 @@ protected:
 
 private:
    static Long m_nextid;
+   static int m_signo;
 
    Bool m_initialized;
    Long m_id;
@@ -991,19 +1001,8 @@ public:
    ~EThreadEventTimerHandler() {}
 
    virtual Int getInitType() { return STATIC_INIT_TYPE_THREADS; }
-   Void init(EGetOpt &options)
-   {
-      struct sigaction sa;
-      sa.sa_flags = SA_SIGINFO;
-      sa.sa_sigaction = EThreadEventTimer::_timerHandler;
-      sigemptyset(&sa.sa_mask);
-      int signo = SIGRTMIN;
-      if (sigaction(signo, &sa, NULL) == -1)
-         throw EThreadTimerError_UnableToRegisterTimerHandler();
-   }
-   Void uninit()
-   {
-   }
+   Void init(EGetOpt &options);
+   Void uninit();
 };
 /// @endcond
 

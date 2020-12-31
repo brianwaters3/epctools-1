@@ -24,6 +24,7 @@
 #include <pthread.h>
 #include <signal.h>
 
+#include "esignal.h"
 #include "esynch.h"
 #include "etevent.h"
 #include "etime.h"
@@ -34,8 +35,19 @@ DECLARE_ERROR_ADVANCED(ETimerPoolError_TimerSetTimeFailed);
 /// @brief Defines the timer expiration callback function.
 typedef Void (*ETimerPoolExpirationCallback)(ULong timerid, pVoid data);
 
+/// @cond DOXYGEN_EXCLUDE
+class ETimerPoolInit : public EStatic
+{
+public:
+   virtual Int getInitType() { return STATIC_INIT_TYPE_THREADS; }
+   Void init(EGetOpt &options);
+   Void uninit();
+};
+/// @endcond
+
 class ETimerPool
 {
+   friend class ETimerPoolInit;
 protected:
    // forward declarations
    class Timer;
@@ -130,6 +142,12 @@ public:
    Void init();
    /// @brief Uninitializes the ETimerPool.
    Void uninit(Bool dumpit=False);
+   /// @brief Retrieves the default timer signal.
+   /// @return the default timer signal.
+   static int getDefaultTimerSignal()           { return m_defsigtimer; }
+   /// @brief Retrieves the default quit signal.
+   /// @return the default quit signal.
+   static int getDefaultQuitSignal()            { return m_defsigquit; }
 
    /// @brief Prints the contents of the internal collections.
    Void dump();
@@ -434,10 +452,15 @@ protected:
 
    Void sendNotifications(ExpirationTimeEntryPtr &etep);
 
+   static Void setDefaultTimerSignal(int signo) { m_defsigtimer = signo; }
+   static Void setDefaultQuitSignal(int signo)  { m_defsigquit = signo; }
+
    /// @endcond
 
 private:
    static ETimerPool *m_instance;
+   static int m_defsigtimer;
+   static int m_defsigquit;
 
    ULong _registerTimer(LongLong ms, const ETimerPool::ExpirationInfo &info);
    ULong assignNextId();

@@ -4083,18 +4083,18 @@ int main(int argc, char *argv[])
 
    try
    {
+      EpcTools::Initialize(opt);
+
       {
          sigset_t sigset;
 
          /* mask SIGALRM in all threads by default */
          sigemptyset(&sigset);
-         sigaddset(&sigset, SIGRTMIN + 2);
-         sigaddset(&sigset, SIGRTMIN + 3);
-         sigaddset(&sigset, SIGUSR1);
+         sigaddset(&sigset, EThreadEventTimer::getSignal());
+         sigaddset(&sigset, ETimerPool::getDefaultTimerSignal());
+         sigaddset(&sigset, ETimerPool::getDefaultQuitSignal());
          sigprocmask(SIG_BLOCK, &sigset, NULL);
       }
-
-      EpcTools::Initialize(opt);
 
       // NodeSelector_test();
 
