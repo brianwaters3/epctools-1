@@ -195,7 +195,9 @@ public:
    /// @brief Clears the current contents of this error object.
    Void clear()
    {
-      clear();
+      m_str.clear();
+      m_eSeverity = Info;
+      m_dwError = 0;
    }
    /// @brief Returns the text associated with this error.
    /// @return the current description associated with this error object
