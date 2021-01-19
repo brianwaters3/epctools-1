@@ -743,7 +743,7 @@ protected:
    {
       if (!m_pData)
       {
-         m_pData = (EThreadMessage *)new Char[nSize];
+         m_pData = (T *)new Char[nSize];
          memset((pChar)m_pData, 0, nSize);
       }
    }
@@ -1014,7 +1014,7 @@ public:
 #define DECLARE_MESSAGE_MAP()                                  \
 protected:                                                     \
    static const msgmap_t *GetThisMessageMap();                 \
-   virtual const msgmap_t *GetMessageMap() const;
+   const msgmap_t *GetMessageMap() const override;
 
 /// @brief Begins the message map declaration.
 /// @details The event message map establishes the relationship of the
@@ -1022,6 +1022,34 @@ protected:                                                     \
 ///   "theClass" is the name of the class containing the message handlers.
 ///   "baseClass" is the class name that "theClass" is derived from.
 
+
+#if defined(__clang__)
+
+#define BEGIN_MESSAGE_MAP(theClass, baseClass)                 \
+   const theClass::msgmap_t *theClass::GetMessageMap() const   \
+   {                                                           \
+      return GetThisMessageMap();                              \
+   }                                                           \
+   const theClass::msgmap_t *theClass::GetThisMessageMap()     \
+   {                                                           \
+      typedef baseClass TheBaseClass;                          \
+      static const msgentry_t _msgEntries[] =                  \
+      {
+
+/// @brief Defines an invidual event handler.
+#define ON_MESSAGE(id, memberFxn)                              \
+         {id, (msgfxn_t)&memberFxn},
+
+/// @brief Ends the message map declaration.
+#define END_MESSAGE_MAP()                                      \
+         {0, (msgfxn_t)NULL}                                   \
+      };                                                       \
+      static const msgmap_t msgMap =                           \
+         {&TheBaseClass::GetThisMessageMap, &_msgEntries[0]};  \
+      return &msgMap;                                          \
+   }
+
+#elif defined(__GNUC__)
 
 #define BEGIN_MESSAGE_MAP(theClass, baseClass)                 \
    const theClass::msgmap_t *theClass::GetMessageMap() const   \
@@ -1049,6 +1077,10 @@ protected:                                                     \
          {&TheBaseClass::GetThisMessageMap, &_msgEntries[0]};  \
       return &msgMap;                                          \
    }
+
+#else
+#error "Unsupported compiler"
+#endif
 
 /// @brief base class for EThreadPrivate and EThreadPublic
 ///
