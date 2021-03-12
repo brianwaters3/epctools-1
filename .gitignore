@@ -34,6 +34,8 @@ pfcp/pfcpr15/*.a
 pfcp/pfcpr15/st*
 pfcp/src/.deps
 pfcp/pfcptest/.deps
+pfcp/pfcptest/analysis/.deps
+pfcp/pfcptest/analysis/.dirstamp
 pfcp/pfcptest/pcaps/.deps
 pfcp/pfcptest/pcaps/.dirstamp
 pfcp/pfcptest/pfcptest

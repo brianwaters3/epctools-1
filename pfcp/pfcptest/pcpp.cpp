@@ -34,6 +34,7 @@ namespace PFCPTest
    PFCP_R15::Translator &GetTranslator()
    {
       static PFCP_R15::Translator trans;
+      PFCP::Configuration::setTranslator(trans);
       return trans;
    }
 
