@@ -68,6 +68,7 @@ public:
 
     using StackString = StackValue<EString>;
     using StackUInt = StackValue<UInt>;
+    using StackULongLong = StackValue<ULongLong>;
     using StackBool = StackValue<Bool>;
 
     /// @brief A helper class which pushes/pops items on the builder's 
@@ -105,7 +106,15 @@ public:
 
     /// @brief Pushes an unsigned integer value onto the stack
     /// @param value the value of the unsigned integer object
-    Void push(const UInt value);
+    Void push(UInt value);
+
+    /// @brief Pushes an unsigned integer value onto the stack
+    /// @param value the value of the unsigned integer object
+    Void push(ULongLong value);
+
+    /// @brief Pushes an bool value onto the stack
+    /// @param value the value of the bool object
+    Void push(Bool value);
 
     /// @brief Pops the top object off the stack.
     /// @param name the name to use when adding this object to a container object 

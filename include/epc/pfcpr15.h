@@ -4631,6 +4631,7 @@ public:
    uint16_t length() const;
    ApplicationIdsPfdsIE &app_ids_pfds(uint8_t idx);
    int next_app_ids_pfds();
+   uint8_t app_ids_pfds_count() const;
    PfdMgmtReq &encode(uint8_t *dest);
    pfcp_pfd_mgmt_req_t &data();
    CLASS_NAME
@@ -4689,6 +4690,7 @@ public:
    CpFunctionFeaturesIE &cp_func_feat(Bool forceInit = False);
    UserPlaneIpResourceInformationIE &user_plane_ip_rsrc_info(uint8_t idx);
    int next_user_plane_ip_rsrc_info();
+   uint8_t user_plane_ip_rsrc_info_count() const;
    AssnSetupReq &encode(uint8_t *dest);
    pfcp_assn_setup_req_t &data();
    CLASS_NAME
@@ -4724,6 +4726,7 @@ public:
    CpFunctionFeaturesIE &cp_func_feat(Bool forceInit = False);
    UserPlaneIpResourceInformationIE &user_plane_ip_rsrc_info(uint8_t idx);
    int next_user_plane_ip_rsrc_info();
+   uint8_t user_plane_ip_rsrc_info_count() const;
    AssnSetupRsp &encode(uint8_t *dest);
    pfcp_assn_setup_rsp_t &data();
    CLASS_NAME
@@ -4759,6 +4762,7 @@ public:
    GracefulReleasePeriodIE &graceful_rel_period(Bool forceInit = False);
    UserPlaneIpResourceInformationIE &user_plane_ip_rsrc_info(uint8_t idx);
    int next_user_plane_ip_rsrc_info();
+   uint8_t user_plane_ip_rsrc_info_count() const;
    AssnUpdateReq &encode(uint8_t *dest);
    pfcp_assn_upd_req_t &data();
    CLASS_NAME
@@ -5036,6 +5040,11 @@ public:
    int next_create_urr();
    int next_create_qer();
    int next_create_traffic_endpt();
+   uint8_t create_pdr_count() const;
+   uint8_t create_far_count() const;
+   uint8_t create_urr_count() const;
+   uint8_t create_qer_count() const;
+   uint8_t create_traffic_endpt_count() const;
    SessionEstablishmentReq &encode(uint8_t *dest);
    pfcp_sess_estab_req_t &data();
    CLASS_NAME
@@ -5083,6 +5092,8 @@ public:
    CreatedTrafficEndpointIE &created_traffic_endpt(uint8_t idx);
    int next_created_pdr();
    int next_created_traffic_endpt();
+   uint8_t created_pdr_count() const;
+   uint8_t created_traffic_endpt_count() const;
    SessionEstablishmentRsp &encode(uint8_t *dest);
    pfcp_sess_estab_rsp_t &data();
    CLASS_NAME
@@ -5165,6 +5176,19 @@ public:
    int next_update_urr();
    int next_update_qer();
    int next_query_urr();
+   uint8_t remove_pdr_count() const;
+   uint8_t remove_far_count() const;
+   uint8_t remove_urr_count() const;
+   uint8_t remove_qer_count() const;
+   uint8_t create_pdr_count() const;
+   uint8_t create_far_count() const;
+   uint8_t create_urr_count() const;
+   uint8_t create_qer_count() const;
+   uint8_t update_pdr_count() const;
+   uint8_t update_far_count() const;
+   uint8_t update_urr_count() const;
+   uint8_t update_qer_count() const;
+   uint8_t query_urr_count() const;
    SessionModificationReq &encode(uint8_t *dest);
    pfcp_sess_mod_req_t &data();
    CLASS_NAME
@@ -5218,6 +5242,7 @@ public:
    CreatedTrafficEndpointIE &createdupdated_traffic_endpt(Bool forceInit = False);
    UsageReportSessionModificationRspIE &usage_report(uint8_t idx);
    int next_usage_report();
+   uint8_t usage_report_count() const;
    SessionModificationRsp &encode(uint8_t *dest);
    pfcp_sess_mod_rsp_t &data();
    CLASS_NAME
@@ -5266,6 +5291,7 @@ public:
    OverloadControlInformationIE &ovrld_ctl_info(Bool forceInit = False);
    UsageReportSessionDeletionRspIE &usage_report(uint8_t idx);
    int next_usage_report();
+   uint8_t usage_report_count() const;
    SessionDeletionRsp &encode(uint8_t *dest);
    pfcp_sess_del_rsp_t &data();
    CLASS_NAME
@@ -5303,6 +5329,7 @@ public:
    AdditionalUsageReportsInformationIE &add_usage_rpts_info(Bool forceInit = False);
    UsageReportSessionReportReqIE &usage_report(uint8_t idx);
    int next_usage_report();
+   uint8_t usage_report_count() const;
    SessionReportReq &encode(uint8_t *dest);
    pfcp_sess_rpt_req_t &data();
    CLASS_NAME

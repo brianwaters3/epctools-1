@@ -9746,6 +9746,11 @@ inline int PfdMgmtReq::next_app_ids_pfds()
       data_.app_ids_pfds_count++ : -1;
 }
 
+inline uint8_t PfdMgmtReq::app_ids_pfds_count() const
+{
+   return data_.app_ids_pfds_count;
+}
+
 inline PfdMgmtReq &PfdMgmtReq::encode(uint8_t *dest)
 {
    data_.header.seid_seqno.no_seid.seq_no = seqNbr();
@@ -9762,14 +9767,6 @@ inline pfcp_pfd_mgmt_req_t &PfdMgmtReq::data()
 
 inline Void PfdMgmtReq::postDecode()
 {
-   for (int i=0; i<MAX_LIST_SIZE; i++)
-   {
-      if (data_.app_ids_pfds[i].header.len > 0)
-      {
-         next_app_ids_pfds();
-         app_ids_pfds(i);
-      }
-   }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -9881,6 +9878,11 @@ inline int AssnSetupReq::next_user_plane_ip_rsrc_info()
       data_.user_plane_ip_rsrc_info_count++ : -1;
 }
 
+inline uint8_t AssnSetupReq::user_plane_ip_rsrc_info_count() const
+{
+   return data_.user_plane_ip_rsrc_info_count;
+}
+
 inline AssnSetupReq &AssnSetupReq::encode(uint8_t *dest)
 {
    data_.header.seid_seqno.no_seid.seq_no = seqNbr();
@@ -9901,11 +9903,6 @@ inline Void AssnSetupReq::postDecode()
    if (data_.rcvry_time_stmp.header.len > 0)          rcvry_time_stmp(True);
    if (data_.up_func_feat.header.len > 0)             up_func_feat(True);
    if (data_.cp_func_feat.header.len > 0)             cp_func_feat(True);
-
-   for (int i=0; i<MAX_LIST_SIZE; i++)
-   {
-      if (data_.user_plane_ip_rsrc_info[i].header.len > 0) { next_user_plane_ip_rsrc_info(); user_plane_ip_rsrc_info(i); }
-   }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -9974,6 +9971,11 @@ inline int AssnSetupRsp::next_user_plane_ip_rsrc_info()
       data_.user_plane_ip_rsrc_info_count++ : -1;
 }
 
+inline uint8_t AssnSetupRsp::user_plane_ip_rsrc_info_count() const
+{
+   return data_.user_plane_ip_rsrc_info_count;
+}
+
 inline AssnSetupRsp &AssnSetupRsp::encode(uint8_t *dest)
 {
    data_.header.seid_seqno.no_seid.seq_no = req()->seqNbr();
@@ -9995,11 +9997,6 @@ inline Void AssnSetupRsp::postDecode()
    if (data_.rcvry_time_stmp.header.len > 0)          rcvry_time_stmp(True);
    if (data_.up_func_feat.header.len > 0)             up_func_feat(True);
    if (data_.cp_func_feat.header.len > 0)             cp_func_feat(True);
-
-   for (int i=0; i<MAX_LIST_SIZE; i++)
-   {
-      if (data_.user_plane_ip_rsrc_info[i].header.len > 0) { next_user_plane_ip_rsrc_info(); user_plane_ip_rsrc_info(i); }
-   }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -10069,6 +10066,11 @@ inline int AssnUpdateReq::next_user_plane_ip_rsrc_info()
       data_.user_plane_ip_rsrc_info_count++ : -1;
 }
 
+inline uint8_t AssnUpdateReq::user_plane_ip_rsrc_info_count() const
+{
+   return data_.user_plane_ip_rsrc_info_count;
+}
+
 inline AssnUpdateReq &AssnUpdateReq::encode(uint8_t *dest)
 {
    data_.header.seid_seqno.no_seid.seq_no = seqNbr();
@@ -10090,11 +10092,6 @@ inline Void AssnUpdateReq::postDecode()
    if (data_.cp_func_feat.header.len > 0)             cp_func_feat(True);
    if (data_.up_assn_rel_req.header.len > 0)          up_assn_rel_req(True);
    if (data_.graceful_rel_period.header.len > 0)      graceful_rel_period(True);
-
-   for (int i=0; i<MAX_LIST_SIZE; i++)
-   {
-      if (data_.user_plane_ip_rsrc_info[i].header.len > 0) { next_user_plane_ip_rsrc_info(); user_plane_ip_rsrc_info(i); }
-   }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -10732,6 +10729,31 @@ inline int SessionEstablishmentReq::next_create_traffic_endpt()
       data_.create_traffic_endpt_count++ : -1;
 }
 
+inline uint8_t SessionEstablishmentReq::create_pdr_count() const
+{
+   return data_.create_pdr_count;
+}
+
+inline uint8_t SessionEstablishmentReq::create_far_count() const
+{
+   return data_.create_far_count;
+}
+
+inline uint8_t SessionEstablishmentReq::create_urr_count() const
+{
+   return data_.create_urr_count;
+}
+
+inline uint8_t SessionEstablishmentReq::create_qer_count() const
+{
+   return data_.create_qer_count;
+}
+
+inline uint8_t SessionEstablishmentReq::create_traffic_endpt_count() const
+{
+   return data_.create_traffic_endpt_count;
+}
+
 inline SessionEstablishmentReq &SessionEstablishmentReq::encode(uint8_t *dest)
 {
    data_.header.seid_seqno.has_seid.seq_no = seqNbr();
@@ -10762,15 +10784,6 @@ inline Void SessionEstablishmentReq::postDecode()
    if (data_.user_id.header.len > 0)                  user_id(True);
    if (data_.trc_info.header.len > 0)                 trc_info(True);
    if (data_.apn_dnn.header.len > 0)                  apn_dnn(True);
-
-   // for (int i=0; i<MAX_LIST_SIZE; i++)
-   // {
-   //    if (data_.create_pdr[i].header.len > 0)            { next_create_pdr(); create_pdr(i); }
-   //    if (data_.create_far[i].header.len > 0)            { next_create_far(); create_far(i); }
-   //    if (data_.create_urr[i].header.len > 0)            { next_create_urr(); create_urr(i); }
-   //    if (data_.create_qer[i].header.len > 0)            { next_create_qer(); create_qer(i); }
-   //    if (data_.create_traffic_endpt[i].header.len > 0)  { next_create_traffic_endpt(); create_traffic_endpt(i); }
-   // }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -10877,6 +10890,16 @@ inline int SessionEstablishmentRsp::next_created_traffic_endpt()
       data_.created_traffic_endpt_count++ : -1;
 }
 
+inline uint8_t SessionEstablishmentRsp::created_pdr_count() const
+{
+   return data_.created_pdr_count;
+}
+
+inline uint8_t SessionEstablishmentRsp::created_traffic_endpt_count() const
+{
+   return data_.created_traffic_endpt_count;
+}
+
 inline SessionEstablishmentRsp &SessionEstablishmentRsp::encode(uint8_t *dest)
 {
    data_.header.seid_seqno.has_seid.seq_no = req()->seqNbr();
@@ -10902,12 +10925,6 @@ inline Void SessionEstablishmentRsp::postDecode()
    if (data_.ovrld_ctl_info.header.len > 0)           ovrld_ctl_info(True);
    if (data_.up_fqcsid.header.len > 0)                up_fqcsid(True);
    if (data_.failed_rule_id.header.len > 0)           failed_rule_id(True);
-
-   for (int i=0; i<MAX_LIST_SIZE; i++)
-   {
-      if (data_.created_pdr[i].header.len > 0)           { next_created_pdr(); created_pdr(i); }
-      if (data_.created_traffic_endpt[i].header.len > 0) { next_created_traffic_endpt(); created_traffic_endpt(i); }
-   }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -11247,6 +11264,71 @@ inline int SessionModificationReq::next_query_urr()
       data_.query_urr_count++ : -1;
 }
 
+inline uint8_t SessionModificationReq::remove_pdr_count() const
+{
+   return data_.remove_pdr_count;
+}
+
+inline uint8_t SessionModificationReq::remove_far_count() const
+{
+   return data_.remove_far_count;
+}
+
+inline uint8_t SessionModificationReq::remove_urr_count() const
+{
+   return data_.remove_urr_count;
+}
+
+inline uint8_t SessionModificationReq::remove_qer_count() const
+{
+   return data_.remove_qer_count;
+}
+
+inline uint8_t SessionModificationReq::create_pdr_count() const
+{
+   return data_.create_pdr_count;
+}
+
+inline uint8_t SessionModificationReq::create_far_count() const
+{
+   return data_.create_far_count;
+}
+
+inline uint8_t SessionModificationReq::create_urr_count() const
+{
+   return data_.create_urr_count;
+}
+
+inline uint8_t SessionModificationReq::create_qer_count() const
+{
+   return data_.create_qer_count;
+}
+
+inline uint8_t SessionModificationReq::update_pdr_count() const
+{
+   return data_.update_pdr_count;
+}
+
+inline uint8_t SessionModificationReq::update_far_count() const
+{
+   return data_.update_far_count;
+}
+
+inline uint8_t SessionModificationReq::update_urr_count() const
+{
+   return data_.update_urr_count;
+}
+
+inline uint8_t SessionModificationReq::update_qer_count() const
+{
+   return data_.update_qer_count;
+}
+
+inline uint8_t SessionModificationReq::query_urr_count() const
+{
+   return data_.query_urr_count;
+}
+
 inline SessionModificationReq &SessionModificationReq::encode(uint8_t *dest)
 {
    data_.header.seid_seqno.has_seid.seq_no = seqNbr();
@@ -11280,23 +11362,6 @@ inline Void SessionModificationReq::postDecode()
    if (data_.user_plane_inact_timer.header.len > 0)   user_plane_inact_timer(True);
    if (data_.query_urr_ref.header.len > 0)            query_urr_ref(True);
    if (data_.trc_info.header.len > 0)                 trc_info(True);
-
-   for (int i=0; i<MAX_LIST_SIZE; i++)
-   {
-      if (data_.remove_pdr[i].header.len > 0)   { next_remove_pdr(); remove_pdr(i); }
-      if (data_.remove_far[i].header.len > 0)   { next_remove_far(); remove_far(i); }
-      if (data_.remove_urr[i].header.len > 0)   { next_remove_urr(); remove_urr(i); }
-      if (data_.remove_qer[i].header.len > 0)   { next_remove_qer(); remove_qer(i); }
-      if (data_.create_pdr[i].header.len > 0)   { next_create_pdr(); create_pdr(i); }
-      if (data_.create_far[i].header.len > 0)   { next_create_far(); create_far(i); }
-      if (data_.create_urr[i].header.len > 0)   { next_create_urr(); create_urr(i); }
-      if (data_.create_qer[i].header.len > 0)   { next_create_qer(); create_qer(i); }
-      if (data_.update_pdr[i].header.len > 0)   { next_update_pdr(); update_pdr(i); }
-      if (data_.update_far[i].header.len > 0)   { next_update_far(); update_far(i); }
-      if (data_.update_urr[i].header.len > 0)   { next_update_urr(); update_urr(i); }
-      if (data_.update_qer[i].header.len > 0)   { next_update_qer(); update_qer(i); }
-      if (data_.query_urr[i].header.len > 0)    { next_query_urr(); query_urr(i); }
-   }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -11385,6 +11450,11 @@ inline int SessionModificationRsp::next_usage_report()
 {
    return (data_.usage_report_count < MAX_LIST_SIZE) ?
       data_.usage_report_count++ : -1;
+}
+
+inline uint8_t SessionModificationRsp::usage_report_count() const
+{
+   return data_.usage_report_count;
 }
 
 inline SessionModificationRsp &SessionModificationRsp::encode(uint8_t *dest)
@@ -11506,6 +11576,11 @@ inline int SessionDeletionRsp::next_usage_report()
       data_.usage_report_count++ : -1;
 }
 
+inline uint8_t SessionDeletionRsp::usage_report_count() const
+{
+   return data_.usage_report_count;
+}
+
 inline SessionDeletionRsp &SessionDeletionRsp::encode(uint8_t *dest)
 {
    data_.header.seid_seqno.has_seid.seq_no = req()->seqNbr();
@@ -11527,11 +11602,6 @@ inline Void SessionDeletionRsp::postDecode()
    if (data_.offending_ie.header.len > 0)             offending_ie(True);
    if (data_.load_ctl_info.header.len > 0)            load_ctl_info(True);
    if (data_.ovrld_ctl_info.header.len > 0)           ovrld_ctl_info(True);
-
-   for (int i=0; i<MAX_LIST_SIZE; i++)
-   {
-      if (data_.usage_report[i].header.len > 0) { next_usage_report(); usage_report(i); }
-   }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -11609,6 +11679,11 @@ inline int SessionReportReq::next_usage_report()
       data_.usage_report_count++ : -1;
 }
 
+inline uint8_t SessionReportReq::usage_report_count() const
+{
+   return data_.usage_report_count;
+}
+
 inline SessionReportReq &SessionReportReq::encode(uint8_t *dest)
 {
    data_.header.seid_seqno.has_seid.seq_no = seqNbr();
@@ -11632,11 +11707,6 @@ inline Void SessionReportReq::postDecode()
    if (data_.load_ctl_info.header.len > 0)            load_ctl_info(True);
    if (data_.ovrld_ctl_info.header.len > 0)           ovrld_ctl_info(True);
    if (data_.add_usage_rpts_info.header.len > 0)      add_usage_rpts_info(True);
-
-   for (int i=0; i<MAX_LIST_SIZE; i++)
-   {
-      if (data_.usage_report[i].header.len > 0)   { next_usage_report(); usage_report(i); }
-   }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

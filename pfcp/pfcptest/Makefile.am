@@ -31,11 +31,12 @@ pfcptest_DEPENDENCIES = \
    $(top_builddir)/src/libpfcpr15.a
 
 # Sources for pfcptest
-pfcptest_SOURCES =     \
-   main.cpp            \
-   pcpp.cpp            \
-   test.cpp            \
-   pcaps/pcaps.cpp     \
+pfcptest_SOURCES =       \
+   main.cpp              \
+   pcpp.cpp              \
+   test.cpp              \
+   analysis/analysis.cpp \
+   pcaps/pcaps.cpp       \
    wrapper/wrapper.cpp
 
 # Compiler options. Here we are adding the include directory
