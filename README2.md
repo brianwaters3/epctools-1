@@ -127,6 +127,28 @@ sudo apt-get install mercurial cmake make gcc g++ bison flex libsctp-dev libgnut
 ```sh
 sudo apt-get install mercurial cmake make gcc g++ bison flex libsctp-dev libgnutls28-dev libgcrypt-dev libidn11-dev libpcap-dev m4 automake libtool
 ```
+***Install RHEL 7 prerequisites.***
+```sh
+sudo yum --assumeyes group install "Development Tools"
+sudo subscription-manager repos --enable rhel-7-server-devtools-rpms
+sudo subscription-manager repos --enable rhel-7-server-optional-rpms
+sudo yum install devtoolset-7
+sudo yum remove git
+sudo yum -y install https://packages.endpoint.com/rhel/7/os/x86_64/endpoint-repo-1.7-1.x86_64.rpm
+sudo yum installl git
+#sudo yum --assumeyes install cmake gnutls-devel libgcrypt-devel
+sudo yum --assumeyes install lksctp-tools-devel libidn-devel libstdc++-static libpcap-devel libgcrypt-devel gnutls-devel
+# cmake version 3.4 or higher is required
+sudo yum remove cmake -y
+sudo yum install openssl-devel -y
+wget https://cmake.org/files/v3.20/cmake-3.20.1.tar.gz
+tar -xvzf cmake-3.20.1.tar.gz
+cd cmake-3.20.1
+./bootstrap --prefix=/usr/local
+make
+sudo make install
+cmake --version # should display version 3.20
+```
 ***Install CentOS 8 prerequisites.***
 ```sh
 sudo yum --assumeyes group install "Development Tools"
@@ -135,6 +157,7 @@ sudo yum --assumeyes --enablerepo=powertools install lksctp-tools-devel libidn-d
 ```
 ***Clone the project, install the dependencies (via configure), build the static library and install.***
 ```sh
+$ # for RHEL 7, run "scl enable devtoolset-7 bash"
 $ git clone https://github.com/brianwaters3/epctools.git epctools
 $ cd epctools
 $ autoreconf -f -i
@@ -142,7 +165,6 @@ $ ./configure
 $ make
 $ sudo make install
 ```
-
 ***To compile with optimization disabled run the following***
 ```sh
 $ cd epctools
